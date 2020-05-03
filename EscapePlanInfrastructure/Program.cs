@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NightSky
+namespace EscapePlanInfrastructure
 {
     class Program
     {
