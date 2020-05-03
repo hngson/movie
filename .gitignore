@@ -1,5 +1,6 @@
 EscapePlan/.vs/
 EscapePlan/bin/
 EscapePlan/obj/
-EscapePlanClient/obj/
-EscapePlanInfrastructure/obj/
+
+Infrastructure/bin/
+Infrastructure/obj/

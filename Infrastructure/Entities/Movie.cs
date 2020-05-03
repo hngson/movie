@@ -24,6 +24,5 @@ namespace Infrastructure.Entities
         public string Directors { get; set; }
         [BsonElement]
         public string Country { get; set; }
-        [BsonElement]
     }
 }
