@@ -1,11 +1,13 @@
-﻿
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace Infrastructure.AppSettings
 {
-    public class DatabaseSettings : IDatabaseSettings
+    public interface IDatabaseSettings
     {
         public string ConnectionString { get; set; }
         public string DatabaseName { get; set; }
         public string CollectionName { get; set; }
     }
-
 }
