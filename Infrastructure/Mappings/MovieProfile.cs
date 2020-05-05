@@ -10,6 +10,7 @@ namespace Infrastructure.Mappings
         public MovieProfile()
         {
             CreateMap<Movie, MovieListModel>();
+            CreateMap<MovieAddModel, Movie>();
         }
     }
 }

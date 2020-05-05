@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public class MongoRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public abstract class MongoRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly IMongoDatabase Database;
         protected readonly IMongoCollection<TEntity> DbSet;
@@ -16,34 +16,32 @@ namespace Infrastructure.Repositories
             Database = context.Database;
             DbSet = Database.GetCollection<TEntity>(typeof(TEntity).Name);
         }
-
         
-
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Empty);
             return data.ToList();
         }
 
-        public async Task<TEntity> GetById(string id)
+        public virtual async Task<TEntity> GetByIdAsync(string id)
         {
             var data = await DbSet.Find(FilterId(id)).FirstOrDefaultAsync();
             return data;
         }
 
-        public async Task<TEntity> Add(TEntity obj)
+        public virtual async Task<TEntity> AddAsync(TEntity obj)
         {
             await DbSet.InsertOneAsync(obj);
             return obj;
         }
 
-        public async Task<TEntity> Update(string id, TEntity obj)
+        public virtual async Task<TEntity> UpdateAsync(string id, TEntity obj)
         {
             await DbSet.ReplaceOneAsync(FilterId(id), obj);
             return obj;
         }
 
-        public async Task<bool> Remove(string id)
+        public virtual async Task<bool> RemoveAsync(string id)
         {
             var result = await DbSet.DeleteOneAsync(FilterId(id));
             return result.IsAcknowledged;
