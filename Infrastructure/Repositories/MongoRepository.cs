@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Repositories
 {
-    public abstract class MongoRepository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class MongoRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly IMongoDatabase Database;
         protected readonly IMongoCollection<TEntity> DbSet;
@@ -31,7 +31,7 @@ namespace Infrastructure.Repositories
             return data;
         }
 
-        public virtual async Task<TEntity> Add(TEntity obj)
+        public async Task<TEntity> Add(TEntity obj)
         {
             await DbSet.InsertOneAsync(obj);
             return obj;
