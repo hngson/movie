@@ -34,7 +34,7 @@ namespace EscapePlan
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
             //services.AddSingleton<MovieService>();
             services.AddSwaggerGen(c => {
-                c.SwaggerDoc(name: "V1", new OpenApiInfo { Title = "Escape Plan", Version = "V1" });
+                c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Escape Plan", Version = "v1" });
             });
         }
 
@@ -48,21 +48,22 @@ namespace EscapePlan
 
             app.UseSwagger();
 
+            // Enable middleware to serve swagger-ui (HTML, JS, CSS, etc.),
+            // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint(url: "./swagger/v1/swagger.json", name: "Escape Plan V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
             });
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
         }
     }
 }
