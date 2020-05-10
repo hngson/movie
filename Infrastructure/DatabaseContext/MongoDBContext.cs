@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Infrastructure.DatabaseContext
 {
-    public abstract class MongoDBContext : IMongoDBContext
+    public class MongoDBContext : IMongoDBContext
     {
-        protected MongoDBContext(IDatabaseSettings connectionSetting)
+        public MongoDBContext(IDatabaseSettings connectionSetting)
         {
             var client = new MongoClient(connectionSetting.ConnectionString);
             Database = client.GetDatabase(connectionSetting.DatabaseName);

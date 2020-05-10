@@ -2,7 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Infrastructure.AppSettings;
+using Infrastructure.DatabaseContext;
+using Infrastructure.Mappings;
+using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,9 +34,20 @@ namespace EscapePlan
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            // Auto Mapper Configurations
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MovieProfile());
+            });
+
+            IMapper mapper = mappingConfig.CreateMapper();
+            services.AddSingleton(mapper);
+
             services.Configure<DatabaseSettings>(Configuration.GetSection(nameof(DatabaseSettings)));
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
-            //services.AddSingleton<MovieService>();
+            services.AddScoped<IMongoDBContext, MongoDBContext>();
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IMovieService, MovieService>();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc(name: "v1", new OpenApiInfo { Title = "Escape Plan", Version = "v1" });
             });

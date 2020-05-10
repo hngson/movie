@@ -11,33 +11,35 @@ namespace Infrastructure.Services
 {
     public class MovieService : IMovieService
     {
-        protected readonly IMovieRepository _movieRepository;
-        protected readonly IMapper mapper;
+        private readonly IMovieRepository _movieRepository;
+        private readonly IMapper _mapper;
         public MovieService(
-            IMovieRepository movieRepository
+            IMovieRepository movieRepository,
+            IMapper mapper
             )
         {
+            _mapper = mapper;
             _movieRepository = movieRepository;
         }
 
 
         public async Task<MovieDetailModel> AddAsync(MovieAddModel obj)
         {
-            var entity = mapper.Map<Movie>(obj);
-            return mapper.Map<MovieDetailModel>(await _movieRepository.AddAsync(entity));
+            var entity = _mapper.Map<Movie>(obj);
+            return _mapper.Map<MovieDetailModel>(await _movieRepository.AddAsync(entity));
         }
 
         public async Task<IEnumerable<MovieListModel>> GetAllAsync()
         {
             var entities = await _movieRepository.GetAllAsync();
-            var models = mapper.Map<List<MovieListModel>>(entities);
+            var models = _mapper.Map<List<MovieListModel>>(entities);
             return models;
         }
 
         public async Task<MovieDetailModel> GetByIdAsync(string id)
         {
             var entity = await _movieRepository.GetByIdAsync(id);
-            var model = mapper.Map<MovieDetailModel>(entity);
+            var model = _mapper.Map<MovieDetailModel>(entity);
             return model;
         }
 
@@ -48,8 +50,8 @@ namespace Infrastructure.Services
 
         public async Task<MovieDetailModel> UpdateAsync(string id, MovieUpdateModel obj)
         {
-            var entity = mapper.Map<Movie>(obj);
-            return mapper.Map<MovieDetailModel>(await _movieRepository.UpdateAsync(id, entity));
+            var entity = _mapper.Map<Movie>(obj);
+            return _mapper.Map<MovieDetailModel>(await _movieRepository.UpdateAsync(id, entity));
         }
     }
 }
