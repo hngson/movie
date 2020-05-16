@@ -1,5 +1,6 @@
 ﻿using Infrastructure.DatabaseContext;
 using Infrastructure.Entities;
+using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -12,5 +13,6 @@ namespace Infrastructure.Repositories
         public MovieRepository(IMongoDBContext context) : base(context)
         {
         }
+
     }
 }

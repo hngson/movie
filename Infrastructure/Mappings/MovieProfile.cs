@@ -9,8 +9,12 @@ namespace Infrastructure.Mappings
     {
         public MovieProfile()
         {
+            //response mapper
             CreateMap<Movie, MovieListModel>();
+
+            //request mapper
             CreateMap<MovieAddModel, Movie>();
+
         }
     }
 }

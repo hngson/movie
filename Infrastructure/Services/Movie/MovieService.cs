@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using Infrastructure.Entities;
 using Infrastructure.Models;
 using Infrastructure.Repositories;
@@ -21,7 +19,6 @@ namespace Infrastructure.Services
             _mapper = mapper;
             _movieRepository = movieRepository;
         }
-
 
         public async Task<MovieDetailModel> AddAsync(MovieAddModel obj)
         {

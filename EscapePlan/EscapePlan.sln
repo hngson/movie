@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapePlan", "EscapePlan.csproj", "{D0A442E2-F3D1-4A78-8351-CFD89601C301}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EscapePlan", "EscapePlan.csproj", "{D0A442E2-F3D1-4A78-8351-CFD89601C301}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "..\Infrastructure\Infrastructure.csproj", "{EDEE4D03-B1F1-486C-AB89-925E0A3FDEBE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "..\Infrastructure\Infrastructure.csproj", "{EDEE4D03-B1F1-486C-AB89-925E0A3FDEBE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscapeSite", "..\EscapeSite\EscapeSite.csproj", "{6B16F9EB-ED2C-4120-9F46-12E72ECA2E92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{EDEE4D03-B1F1-486C-AB89-925E0A3FDEBE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EDEE4D03-B1F1-486C-AB89-925E0A3FDEBE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EDEE4D03-B1F1-486C-AB89-925E0A3FDEBE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6B16F9EB-ED2C-4120-9F46-12E72ECA2E92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B16F9EB-ED2C-4120-9F46-12E72ECA2E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B16F9EB-ED2C-4120-9F46-12E72ECA2E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B16F9EB-ED2C-4120-9F46-12E72ECA2E92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

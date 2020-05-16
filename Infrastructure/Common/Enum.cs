@@ -1,8 +1,14 @@
 ﻿
 
+using System.ComponentModel;
+
 namespace Infrastructure.Common
 {
-    class Enum
+    public enum Enum
     {
+        [Description("Open Open")]
+        Open,
+        [Description("Closed")]
+        Closed
     }
 }

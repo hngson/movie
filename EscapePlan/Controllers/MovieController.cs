@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Infrastructure.Entities;
 using Infrastructure.Models;
 using Infrastructure.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EscapePlan.Controllers
@@ -38,8 +34,9 @@ namespace EscapePlan.Controllers
 
         // POST: api/Movie
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void AddMovie([FromBody] MovieAddModel model)
         {
+
         }
 
         // PUT: api/Movie/5
@@ -50,8 +47,9 @@ namespace EscapePlan.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async void Delete(string id)
         {
+            await _movieService.RemoveAsync(id);
         }
     }
 }
