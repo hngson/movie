@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EscapePlan.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/movies")]
     [ApiController]
     public class MovieController : ControllerBase
     {

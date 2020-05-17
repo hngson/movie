@@ -11,6 +11,7 @@ namespace Infrastructure.Mappings
         {
             //response mapper
             CreateMap<Movie, MovieListModel>();
+            CreateMap<Movie, MovieDetailModel>();
 
             //request mapper
             CreateMap<MovieAddModel, Movie>();

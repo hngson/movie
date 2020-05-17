@@ -1,5 +1,8 @@
 ﻿using Infrastructure.DatabaseContext;
+using Microsoft.Extensions.Caching.Distributed;
+using MongoDB.Bson;
 using MongoDB.Driver;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -10,23 +13,44 @@ namespace Infrastructure.Repositories
     {
         protected readonly IMongoDatabase Database;
         protected readonly IMongoCollection<TEntity> DbSet;
+        protected readonly IDistributedCache _redisCache;
 
-        protected MongoRepository(IMongoDBContext context)
+        protected MongoRepository(IMongoDBContext context, IDistributedCache redisCache)
         {
             Database = context.Database;
             DbSet = Database.GetCollection<TEntity>(typeof(TEntity).Name);
+            _redisCache = redisCache;
         }
         
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Empty);
-            return data.ToList();
+            var cacheKey = typeof(TEntity).Name;
+            var cachedData = _redisCache.GetString(cacheKey);
+            if (string.IsNullOrEmpty(cachedData))
+            {
+                var data = await DbSet.FindAsync(Builders<TEntity>.Filter.Empty);
+                await _redisCache.SetStringAsync(cacheKey, JsonConvert.SerializeObject(data.ToList<TEntity>()));
+                cachedData = _redisCache.GetString(cacheKey);
+
+                return JsonConvert.DeserializeObject<IEnumerable<TEntity>>(cachedData);
+            }
+
+            return JsonConvert.DeserializeObject<IEnumerable<TEntity>>(cachedData);
+            
         }
 
         public virtual async Task<TEntity> GetByIdAsync(string id)
         {
-            var data = await DbSet.Find(FilterId(id)).FirstOrDefaultAsync();
-            return data;
+            var cacheKey = typeof(TEntity).Name + "_" + id;
+            var cachedData = _redisCache.GetString(cacheKey);
+            if (string.IsNullOrEmpty(cachedData))
+            {
+                var data = await DbSet.Find(FilterId(id)).FirstOrDefaultAsync();
+                _redisCache.SetString(cacheKey, JsonConvert.SerializeObject(data));
+                cachedData = _redisCache.GetString(cacheKey);
+                return JsonConvert.DeserializeObject<TEntity>(cachedData);
+            }
+            return JsonConvert.DeserializeObject<TEntity>(cachedData);
         }
 
         public virtual async Task<TEntity> AddAsync(TEntity obj)
@@ -47,9 +71,9 @@ namespace Infrastructure.Repositories
             return result.IsAcknowledged;
         }
 
-        private static FilterDefinition<TEntity> FilterId(string key)
+        private static FilterDefinition<TEntity> FilterId(string id)
         {
-            return Builders<TEntity>.Filter.Eq("_id", key);
+            return Builders<TEntity>.Filter.Eq("_id", new ObjectId(id));
         }
 
         public void Dispose()
