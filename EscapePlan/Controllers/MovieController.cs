@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Infrastructure.Common;
 using Infrastructure.Models;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -18,15 +19,25 @@ namespace EscapePlan.Controllers
         }
         // GET: api/Movie
         [HttpGet]
-        public async Task<IEnumerable<MovieListModel>> Get()
+        public async Task<IEnumerable<MovieListModel>> GetAsync()
         {
             var data = await _movieService.GetAllAsync();
             return data;
         }
 
-        // GET: api/Movie/5
-        [HttpGet("{id}", Name = "Get")]
-        public async Task<MovieDetailModel> GetAsync(string id)
+        // GET: api/Movie
+        [HttpGet("search")]
+        public async Task<IEnumerable<MovieListModel>> GetPagnedListAsync(
+            string keyword, string orderBy, OrderType orderType, int page, int pageSize
+            )
+        {
+            var data = await _movieService.GetPagnedListAsync(keyword, orderBy, orderType, page, pageSize);
+            return data;
+        }
+
+        // GET: api/Movie/id
+        [HttpGet("{id}")]
+        public async Task<MovieDetailModel> GetByIdAsync(string id)
         {
             var data = await _movieService.GetByIdAsync(id);
             return data;

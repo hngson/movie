@@ -4,11 +4,11 @@ using System.ComponentModel;
 
 namespace Infrastructure.Common
 {
-    public enum Enum
+    public enum OrderType
     {
-        [Description("Open Open")]
-        Open,
-        [Description("Closed")]
-        Closed
+        [Description("Ascending")]
+        ASC,
+        [Description("Descending")]
+        DESC
     }
 }

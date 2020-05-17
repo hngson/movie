@@ -1,7 +1,9 @@
-﻿using Infrastructure.DatabaseContext;
+﻿using Infrastructure.Common;
+using Infrastructure.DatabaseContext;
 using Microsoft.Extensions.Caching.Distributed;
 using MongoDB.Bson;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace Infrastructure.Repositories
             DbSet = Database.GetCollection<TEntity>(typeof(TEntity).Name);
             _redisCache = redisCache;
         }
-        
+
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             var cacheKey = typeof(TEntity).Name;
@@ -36,7 +38,18 @@ namespace Infrastructure.Repositories
             }
 
             return JsonConvert.DeserializeObject<IEnumerable<TEntity>>(cachedData);
-            
+
+        }
+        public virtual async Task<IEnumerable<TEntity>> GetPagnedListAsync(
+            string keyword, string orderBy, OrderType orderType, int page, int pageSize
+            )
+        {
+            var skipNumber = pageSize * (page - 1);
+            var data = await DbSet.Find(Builders<TEntity>.Filter.Empty)
+                .Skip(skipNumber)
+                .Limit(pageSize).ToListAsync();
+
+            return data;
         }
 
         public virtual async Task<TEntity> GetByIdAsync(string id)
@@ -80,6 +93,6 @@ namespace Infrastructure.Repositories
         {
             GC.SuppressFinalize(this);
         }
-        
+
     }
 }

@@ -6,6 +6,7 @@ using Infrastructure.Repositories;
 using Infrastructure.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +32,7 @@ namespace EscapePlan
                 options.InstanceName = "EscapePlan";
                 options.Configuration = "localhost";
             });
-            services.AddSession();
+            //services.AddSession();
             services.AddControllers();
             // Auto Mapper Configurations
             var mappingConfig = new MapperConfiguration(mc =>
@@ -53,6 +54,18 @@ namespace EscapePlan
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.Use(async (context, next) =>
+            {
+                // Do work that doesn't write to the Response.
+                await next.Invoke();
+                // Do logging or other work that doesn't write to the Response.
+            });
+
+            //app.Run(async context =>
+            //{
+            //    await context.Response.WriteAsync("Hello, World!");
+            //});
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -61,12 +74,13 @@ namespace EscapePlan
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+
             
         }
     }

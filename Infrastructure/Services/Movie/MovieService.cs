@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Infrastructure.Common;
 using Infrastructure.Entities;
 using Infrastructure.Models;
 using Infrastructure.Repositories;
@@ -29,6 +30,15 @@ namespace Infrastructure.Services
         public async Task<IEnumerable<MovieListModel>> GetAllAsync()
         {
             var entities = await _movieRepository.GetAllAsync();
+            var models = _mapper.Map<List<MovieListModel>>(entities);
+            return models;
+        }
+
+        public async Task<IEnumerable<MovieListModel>> GetPagnedListAsync(
+            string keyword, string orderBy, OrderType orderType, int page, int pageSize
+            )
+        {
+            var entities = await _movieRepository.GetPagnedListAsync(keyword, orderBy, orderType, page, pageSize);
             var models = _mapper.Map<List<MovieListModel>>(entities);
             return models;
         }

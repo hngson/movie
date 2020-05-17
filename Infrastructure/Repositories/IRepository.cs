@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Infrastructure.Common;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,5 +13,8 @@ namespace Infrastructure.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<TEntity> UpdateAsync(string id, TEntity obj);
         Task<bool> RemoveAsync(string id);
+        Task<IEnumerable<TEntity>> GetPagnedListAsync(
+            string keyword, string orderBy, OrderType orderType, int pageNumber, int pageSize
+            );
     }
 }
